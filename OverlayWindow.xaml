@@ -233,11 +233,13 @@
             <!-- Floating Action Bar with Google Search Button -->
             <StackPanel x:Name="FloatingActionsBar"
                         Orientation="Horizontal"
+                        Panel.ZIndex="1000"
                         Visibility="Collapsed">
                 <!-- Search with Google Lens Button -->
                 <Button x:Name="BtnSearchLens"
                         Style="{StaticResource CreativeGoogleSearchBtn}"
                         Click="BtnConfirmSearch_Click"
+                        PreviewMouseDown="BtnConfirmSearch_PreviewMouseDown"
                         Margin="0,0,10,0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock x:Name="SearchIconText" Text="✨" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
@@ -249,6 +251,7 @@
                 <Button x:Name="BtnCopyImage"
                         Style="{StaticResource CreativeSecondaryBtn}"
                         Click="BtnCopyImage_Click"
+                        PreviewMouseDown="BtnCopyImage_PreviewMouseDown"
                         Margin="0,0,10,0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock x:Name="CopyIconText" Text="📋" FontSize="12" Margin="0,0,6,0" VerticalAlignment="Center"/>
@@ -258,7 +261,8 @@
 
                 <!-- Dismiss Button -->
                 <Button Style="{StaticResource CreativeSecondaryBtn}"
-                        Click="BtnDismiss_Click">
+                        Click="BtnDismiss_Click"
+                        PreviewMouseDown="BtnDismiss_PreviewMouseDown">
                     <TextBlock Text="✕" FontWeight="Bold" FontSize="13" Foreground="#94a3b8"/>
                 </Button>
             </StackPanel>
