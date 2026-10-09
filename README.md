@@ -1,4 +1,5 @@
-# Searchhy — Google "Circle to Search" for Windows 🔍✨
+# Searchhy
+## Circle to Search for Windows 🔍✨
 
 **Searchhy** brings the authentic Google **Circle to Search** experience to Windows 10 & 11 in C# / .NET 8 (WPF).
 
@@ -6,7 +7,7 @@ Hold your **Left and Right mouse buttons together** on any screen (or press `Ctr
 
 ---
 
-## ✨ Google "Circle to Search" Experience
+## ✨ Google like Circle to Search Experience
 
 - **Freeform Circle & Lasso Drawing**: Draw a circle, scribble, or drag a box around any image, text, or UI element.
 - **Chromatic Glowing Particle Trail**: Displays Google's glowing neon brush stroke with smooth spline interpolation.
