@@ -222,6 +222,13 @@ public partial class DashboardWindow : Window
         IconBuilder.RefreshWindowsDesktop();
     }
 
+    private void BtnOpenSetupWizard_Click(object sender, RoutedEventArgs e)
+    {
+        var wizard = new SetupWizardWindow(_triggerOverlayAction, () => { });
+        wizard.Owner = this;
+        wizard.ShowDialog();
+    }
+
     private void BtnTestOverlay_Click(object sender, RoutedEventArgs e)
     {
         Logger.LogInfo("Manual Test: Launching Circle to Search overlay via Dashboard button.");

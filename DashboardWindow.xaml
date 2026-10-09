@@ -104,6 +104,7 @@
                                Foreground="#94a3b8" FontSize="12.5" Margin="28,3,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="📖 Setup Wizard" Style="{StaticResource ModernButton}" Click="BtnOpenSetupWizard_Click" Margin="0,0,8,0"/>
                     <Button Content="🚀 Test Circle to Search" Style="{StaticResource PrimaryButton}" Click="BtnTestOverlay_Click" Margin="0,0,8,0"/>
                     <Button Content="📋 Test Upload" Style="{StaticResource ModernButton}" Click="BtnTestUpload_Click"/>
                 </StackPanel>

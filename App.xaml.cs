@@ -81,8 +81,10 @@ public partial class App : System.Windows.Application
         {
             Logger.LogInfo("=== Searchhy Starting ===");
 
-            // Automatically ensure Searchhy starts with Windows by default
-            if (!StartupHelper.IsAutoStartEnabled())
+            var settings = AppSettings.Load();
+
+            // Automatically ensure Searchhy starts with Windows if enabled
+            if (settings.StartWithWindows && !StartupHelper.IsAutoStartEnabled())
             {
                 StartupHelper.EnableAutoStart();
                 Logger.LogInfo("Searchhy registered to start automatically with Windows.");
@@ -93,7 +95,28 @@ public partial class App : System.Windows.Application
 
             // Initialize Diagnostic Dashboard Window
             _dashboardWindow = new DashboardWindow(TriggerCircleToSearchManual, ShutdownApp);
-            _dashboardWindow.Show();
+
+            if (!settings.HasCompletedSetup)
+            {
+                // First launch: show Setup & Onboarding Wizard
+                var wizard = new SetupWizardWindow(TriggerCircleToSearchManual, () =>
+                {
+                    _dashboardWindow.Show();
+                    if (settings.ShowTrayNotificationOnStart)
+                    {
+                        _trayHost.ShowReadyNotification();
+                    }
+                });
+                wizard.Show();
+            }
+            else
+            {
+                _dashboardWindow.Show();
+                if (settings.ShowTrayNotificationOnStart)
+                {
+                    _trayHost.ShowReadyNotification();
+                }
+            }
 
             IntPtr hostHandle = new System.Windows.Interop.WindowInteropHelper(_dashboardWindow).Handle;
 
@@ -108,8 +131,7 @@ public partial class App : System.Windows.Application
             _hotkeyManager.TogglePauseRequested += OnTogglePauseHotkey;
             _hotkeyManager.Initialize(hostHandle);
 
-            _trayHost.ShowReadyNotification();
-            Logger.LogInfo("Searchhy initialized. Dashboard opened and listening for chords.");
+            Logger.LogInfo("Searchhy initialized and listening for chords.");
         }
         catch (Exception ex)
         {
