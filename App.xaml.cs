@@ -15,6 +15,27 @@ public partial class App : System.Windows.Application
     private const string MutexName = "Searchhy_SingleInstance_Mutex";
     private static Mutex? _singleInstanceMutex;
 
+    private const int HWND_BROADCAST = 0xFFFF;
+    private const int SW_RESTORE = 9;
+    private const int SW_SHOW = 5;
+
+    [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+    private static extern uint RegisterWindowMessage(string lpString);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+    private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool GetCursorPos(out MouseChordDetector.POINT lpPoint);
+
+    private uint _wmShowSearchhy;
+    private System.Windows.Interop.HwndSource? _hwndSource;
     private TrayHost? _trayHost;
     private MouseChordDetector? _chordDetector;
     private GlobalHotkeyManager? _hotkeyManager;
@@ -22,9 +43,7 @@ public partial class App : System.Windows.Application
     private OverlayWindow? _currentOverlay;
     private readonly object _overlayLock = new();
     private bool _isPaused;
-
-    [System.Runtime.InteropServices.DllImport("user32.dll")]
-    private static extern bool GetCursorPos(out MouseChordDetector.POINT lpPoint);
+    private bool _isPrimaryInstance;
 
     public App()
     {
@@ -35,21 +54,26 @@ public partial class App : System.Windows.Application
     {
         base.OnStartup(e);
 
+        _wmShowSearchhy = RegisterWindowMessage("SEARCHHY_SHOW_ME_MSG");
+
         // Ensure single-instance execution safely
         bool isNewInstance = false;
         try
         {
             _singleInstanceMutex = new Mutex(true, MutexName, out isNewInstance);
+            _isPrimaryInstance = isNewInstance;
         }
         catch (AbandonedMutexException)
         {
             isNewInstance = true;
+            _isPrimaryInstance = true;
             Logger.LogInfo("Acquired ownership of abandoned single-instance mutex.");
         }
         catch (Exception ex)
         {
             Logger.LogWarn($"Mutex initialization warning: {ex.Message}");
             isNewInstance = true;
+            _isPrimaryInstance = true;
         }
 
         // Verify if another active process is actually running
@@ -60,7 +84,22 @@ public partial class App : System.Windows.Application
 
         if (otherInstances.Length > 0 && !isNewInstance)
         {
-            Logger.LogWarn($"Another instance of Searchhy (PID: {otherInstances[0].Id}) is already running. Exiting.");
+            Logger.LogInfo($"Searchhy is already running (PID: {otherInstances[0].Id}). Signaling existing instance to open.");
+            PostMessage((IntPtr)HWND_BROADCAST, _wmShowSearchhy, IntPtr.Zero, IntPtr.Zero);
+
+            try
+            {
+                foreach (var proc in otherInstances)
+                {
+                    if (proc.MainWindowHandle != IntPtr.Zero)
+                    {
+                        ShowWindow(proc.MainWindowHandle, SW_RESTORE);
+                        SetForegroundWindow(proc.MainWindowHandle);
+                    }
+                }
+            }
+            catch { }
+
             Shutdown();
             return;
         }
@@ -98,6 +137,10 @@ public partial class App : System.Windows.Application
 
             // Ensure window handle exists immediately without having to show the window if setup wizard is running
             IntPtr hostHandle = new System.Windows.Interop.WindowInteropHelper(_dashboardWindow).EnsureHandle();
+
+            // Hook window messages to restore Dashboard on second-instance launch
+            _hwndSource = System.Windows.Interop.HwndSource.FromHwnd(hostHandle);
+            _hwndSource?.AddHook(WndProc);
 
             if (!settings.HasCompletedSetup)
             {
@@ -146,6 +189,17 @@ public partial class App : System.Windows.Application
         }
     }
 
+    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (msg == _wmShowSearchhy && _wmShowSearchhy != 0)
+        {
+            Logger.LogInfo("Received broadcast signal to show Searchhy Dashboard.");
+            OpenDashboard();
+            handled = true;
+        }
+        return IntPtr.Zero;
+    }
+
     private void OpenDashboard()
     {
         Dispatcher.Invoke(() =>
@@ -154,9 +208,27 @@ public partial class App : System.Windows.Application
             {
                 _dashboardWindow = new DashboardWindow(TriggerCircleToSearchManual, ShutdownApp);
             }
+
             _dashboardWindow.Show();
-            _dashboardWindow.WindowState = WindowState.Normal;
+            if (_dashboardWindow.WindowState == WindowState.Minimized)
+            {
+                _dashboardWindow.WindowState = WindowState.Normal;
+            }
             _dashboardWindow.Activate();
+            _dashboardWindow.Topmost = true;
+            _dashboardWindow.Topmost = false;
+            _dashboardWindow.Focus();
+
+            try
+            {
+                IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(_dashboardWindow).Handle;
+                if (hwnd != IntPtr.Zero)
+                {
+                    ShowWindow(hwnd, SW_RESTORE);
+                    SetForegroundWindow(hwnd);
+                }
+            }
+            catch { }
         });
     }
 
@@ -255,9 +327,13 @@ public partial class App : System.Windows.Application
             _trayHost?.Dispose();
             _trayHost = null;
 
-            if (_singleInstanceMutex != null)
+            if (_singleInstanceMutex != null && _isPrimaryInstance)
             {
-                _singleInstanceMutex.ReleaseMutex();
+                try
+                {
+                    _singleInstanceMutex.ReleaseMutex();
+                }
+                catch { }
                 _singleInstanceMutex.Dispose();
                 _singleInstanceMutex = null;
             }
