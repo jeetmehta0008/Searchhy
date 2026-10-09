@@ -48,8 +48,10 @@
 | **Draw Circle / Selection** | Drag mouse around any object, image, or text |
 | **Search with Searchhy** | Click **Search with Searchhy** OR press **`Enter`** |
 | **Copy Image to Clipboard** | Click **📋 Copy** |
-| **Cancel / Dismiss** | Press **`ESC`** or Right-Click anywhere |
+| **Cancel / Close Search** | Press **`ESC`**, click **✕**, or **Right-Click anywhere** (even after drawing a small line/circle) |
 | **Pause / Resume Hotkey** | Press **`Ctrl + Shift + P`** |
+
+> 💡 **Quick Dismiss Tip**: You can quickly dismiss/cancel Circle to Search anytime by pressing `ESC`, or by drawing slightly and immediately **Right-Clicking** to close the overlay instantly without triggering any search.
 
 ---
 
