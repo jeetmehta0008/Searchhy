@@ -1,6 +1,8 @@
 ## Build & Output directories
 bin/
 obj/
+publish/
+*.zip
 *.user
 *.suo
 *.userosscache

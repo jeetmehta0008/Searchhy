@@ -1,0 +1,41 @@
+name: Build and Release Searchhy
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish Standalone Executable
+      run: |
+        dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o publish
+
+    - name: Create Portable Zip Package
+      run: |
+        Compress-Archive -Path "publish\*" -DestinationPath "Searchhy-v1.0-Windows-x64.zip"
+
+    - name: Upload Release Assets
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          Searchhy-v1.0-Windows-x64.zip
+          publish/Searchhy.exe
+        draft: false
+        prerelease: false
