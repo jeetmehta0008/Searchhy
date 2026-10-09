@@ -197,6 +197,22 @@ public partial class OverlayWindow : Window
                 return;
             }
 
+            // Check if clicking on or near the Floating Action Bar
+            if (FloatingActionsBar.Visibility == Visibility.Visible)
+            {
+                double barLeft = Canvas.GetLeft(FloatingActionsBar);
+                double barTop = Canvas.GetTop(FloatingActionsBar);
+                double barWidth = FloatingActionsBar.ActualWidth > 0 ? FloatingActionsBar.ActualWidth : 400;
+                double barHeight = FloatingActionsBar.ActualHeight > 0 ? FloatingActionsBar.ActualHeight : 60;
+
+                if (pos.X >= barLeft - 10 && pos.X <= barLeft + barWidth + 10 &&
+                    pos.Y >= barTop - 10 && pos.Y <= barTop + barHeight + 10)
+                {
+                    // Click is over the action buttons — let button events execute!
+                    return;
+                }
+            }
+
             // Check if clicking near any of the 4 corner handles
             const double handleRadius = 32;
 
@@ -451,9 +467,21 @@ public partial class OverlayWindow : Window
         DimmedMaskPath.Data = null;
     }
 
+    private void BtnConfirmSearch_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        ExecuteSearch();
+    }
+
     private void BtnConfirmSearch_Click(object sender, RoutedEventArgs e)
     {
         ExecuteSearch();
+    }
+
+    private void BtnCopyImage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        BtnCopyImage_Click(sender, e);
     }
 
     private async void BtnCopyImage_Click(object sender, RoutedEventArgs e)
@@ -463,6 +491,12 @@ public partial class OverlayWindow : Window
         CopyIconText.Text = "✓";
         await Task.Delay(350);
         CloseOverlay();
+    }
+
+    private void BtnDismiss_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        CancelSelection();
     }
 
     private void BtnDismiss_Click(object sender, RoutedEventArgs e)
