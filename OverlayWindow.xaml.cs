@@ -97,7 +97,6 @@ public partial class OverlayWindow : Window
         SetWindowPos(hwnd, (IntPtr)HWND_TOPMOST, _virtualBounds.Left, _virtualBounds.Top, _virtualBounds.Width, _virtualBounds.Height, SWP_SHOWWINDOW);
 
         Focus();
-        CaptureMouse();
 
         // 3. Get exact current physical cursor position
         GetCursorPos(out var p);
@@ -202,13 +201,13 @@ public partial class OverlayWindow : Window
             {
                 double barLeft = Canvas.GetLeft(FloatingActionsBar);
                 double barTop = Canvas.GetTop(FloatingActionsBar);
-                double barWidth = FloatingActionsBar.ActualWidth > 0 ? FloatingActionsBar.ActualWidth : 400;
+                double barWidth = FloatingActionsBar.ActualWidth > 0 ? FloatingActionsBar.ActualWidth : 420;
                 double barHeight = FloatingActionsBar.ActualHeight > 0 ? FloatingActionsBar.ActualHeight : 60;
 
-                if (pos.X >= barLeft - 10 && pos.X <= barLeft + barWidth + 10 &&
-                    pos.Y >= barTop - 10 && pos.Y <= barTop + barHeight + 10)
+                if (pos.X >= barLeft - 8 && pos.X <= barLeft + barWidth + 8 &&
+                    pos.Y >= barTop - 8 && pos.Y <= barTop + barHeight + 8)
                 {
-                    // Click is over the action buttons — let button events execute!
+                    // Click is over the action buttons — let button events execute natively!
                     return;
                 }
             }
@@ -219,26 +218,31 @@ public partial class OverlayWindow : Window
             if (IsNearPoint(pos, _cropLeft, _cropTop, handleRadius))
             {
                 _currentDragMode = DragMode.ResizeTopLeft;
+                CaptureMouse();
                 ShowDimensionTag();
             }
             else if (IsNearPoint(pos, _cropLeft + _cropWidth, _cropTop, handleRadius))
             {
                 _currentDragMode = DragMode.ResizeTopRight;
+                CaptureMouse();
                 ShowDimensionTag();
             }
             else if (IsNearPoint(pos, _cropLeft, _cropTop + _cropHeight, handleRadius))
             {
                 _currentDragMode = DragMode.ResizeBottomLeft;
+                CaptureMouse();
                 ShowDimensionTag();
             }
             else if (IsNearPoint(pos, _cropLeft + _cropWidth, _cropTop + _cropHeight, handleRadius))
             {
                 _currentDragMode = DragMode.ResizeBottomRight;
+                CaptureMouse();
                 ShowDimensionTag();
             }
             else if (pos.X >= _cropLeft && pos.X <= _cropLeft + _cropWidth && pos.Y >= _cropTop && pos.Y <= _cropTop + _cropHeight)
             {
                 _currentDragMode = DragMode.MovingBox;
+                CaptureMouse();
                 ShowDimensionTag();
             }
             else
@@ -248,6 +252,7 @@ public partial class OverlayWindow : Window
                 _trailPoints.Add(pos);
                 _hasDrawnCircle = false;
                 _currentDragMode = DragMode.DrawingCircle;
+                CaptureMouse();
                 HideCroppableBox();
                 UpdateTrailVisual();
             }
@@ -258,6 +263,7 @@ public partial class OverlayWindow : Window
             _trailPoints.Clear();
             _trailPoints.Add(pos);
             _currentDragMode = DragMode.DrawingCircle;
+            CaptureMouse();
             UpdateTrailVisual();
         }
     }
@@ -266,6 +272,7 @@ public partial class OverlayWindow : Window
     {
         if (Interlocked.CompareExchange(ref _isFinishedInt, 0, 0) == 1) return;
 
+        ReleaseMouseCapture();
         HideDimensionTag();
 
         if (_currentDragMode == DragMode.DrawingCircle)
