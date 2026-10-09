@@ -1,114 +1,98 @@
-# Searchhy
-## Circle to Search for Windows 🔍✨
+# Searchhy 🔍✨
+### Google "Circle to Search" — Built Natively for Windows PC
 
-**Searchhy** brings the authentic Google **Circle to Search** experience to Windows 10 & 11 in C# / .NET 8 (WPF).
+[![Release](https://img.shields.io/github/v/release/jeetmehta0008/Searchhy?color=38bdf8&label=Release&style=flat-square)](https://github.com/jeetmehta0008/Searchhy/releases)
+[![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6?style=flat-square&logo=windows)](https://github.com/jeetmehta0008/Searchhy)
+[![.NET](https://img.shields.io/badge/.NET-8.0%20(WPF)-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
+[![License](https://img.shields.io/badge/License-MIT-emerald?style=flat-square)](LICENSE)
 
-Hold your **Left and Right mouse buttons together** on any screen (or press `Ctrl + Shift + L`), and draw a glowing circle, scribble, or lasso loop around anything. On release, Google Lens automatically opens and visual search results load in your default browser.
+<p align="center">
+  <img src="logo.png" alt="Searchhy Logo" width="160" style="border-radius: 32px;" />
+</p>
 
----
-
-## ✨ Google like Circle to Search Experience
-
-- **Freeform Circle & Lasso Drawing**: Draw a circle, scribble, or drag a box around any image, text, or UI element.
-- **Chromatic Glowing Particle Trail**: Displays Google's glowing neon brush stroke with smooth spline interpolation.
-- **Automatic Bounding Box Fitting**: Automatically fits a crisp highlight box and cutout around the circled region.
-- **Ultra-Responsive Mouse Chord**: 12ms high-speed hardware polling guarantees instantaneous trigger whenever both buttons are pressed.
-- **Zero Friction & Auto-Dismiss**:
-  - Releasing your fingers immediately triggers the search.
-  - Right-click anywhere or press `ESC` to dismiss instantly.
-- **No 403 Errors**: Direct form submission to Google's official visual search endpoint with instant clipboard fallback.
-- **Runs Silently in Background**: Starts with Windows and lives in the system tray.
-- **Non-Intrusive**: Normal left-clicks, right-clicks, and drag-selections continue to work with zero lag.
-- **Multi-Monitor & DPI-Aware**: Captures across all screens and DPI scales (100%, 125%, 150%, 200%).
-- **Direct Google Lens Results**: Auto-uploads image in memory to Google Lens in your default browser. No toast notifications, no saving screenshots to disk.
+<p align="center">
+  <b>Searchhy</b> brings the authentic Google <b>Circle to Search</b> experience to Windows 10 & 11 in high-performance C# / .NET 8 (WPF).<br/>
+  Circle, scribble, or lasso anything on your screen — and instantly get Google Lens visual search results in your default browser.
+</p>
 
 ---
 
-## 🏗️ Architecture
+## ⚡ Quick Download & Install
 
-The codebase is organized into clean, single-responsibility modules:
+👉 **[Download Latest Standalone Release (Searchhy-v1.0-Windows-x64.zip)](https://github.com/jeetmehta0008/Searchhy/releases/latest)**
 
-- **[`LensConfig.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/LensConfig.cs)**: Centralized constants for Google Lens upload endpoints, form field names, fallback URLs, and gesture timings.
-- **[`MouseChordDetector.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/MouseChordDetector.cs)**: Low-level `WH_MOUSE_LL` Windows mouse hook with an asynchronous chord detection engine.
-- **[`ScreenCapture.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/ScreenCapture.cs)**: DPI-aware multi-monitor screen capture (`BitBlt`) and in-memory PNG cropping.
-- **[`OverlayWindow.xaml`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/OverlayWindow.xaml) / [`.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/OverlayWindow.xaml.cs)**: Full-desktop overlay with a dimmed background, interactive cutout, live pixel dimensions badge, and ESC cancellation.
-- **[`LensSearchLauncher.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/LensSearchLauncher.cs)**: Ephemeral localhost HTTP server that loads the PNG into a standard form `<input type="file" name="encoded_image">` via `DataTransfer` and submits directly to Google Lens.
-- **[`TrayHost.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/TrayHost.cs)**: System tray icon with "Start with Windows" and "Exit Searchhy" options.
-- **[`StartupHelper.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/StartupHelper.cs)**: Manages automatic launch on Windows boot via `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`.
-- **[`Logger.cs`](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/Logger.cs)**: Thread-safe file logger writing to `%LOCALAPPDATA%\LensChord\log.txt`.
+1. Download and extract the `.zip` archive.
+2. Double-click `Searchhy.exe` to start.
+3. The interactive **Setup & Onboarding Wizard** will appear to guide you through gestures and settings!
 
 ---
 
-## 🚀 How to Build and Run
+## ✨ Key Features
 
-### Prerequisites
-- Windows 10 or Windows 11
-- [.NET 8 SDK or higher](https://dotnet.microsoft.com/download)
+- **🖱️ Mouse Chord Detection (Default)**: Hold `Left + Right` mouse buttons together (~30ms) anywhere on your screen to freeze and circle.
+- **⌨️ Global Keyboard Shortcut**: Press `Ctrl + Shift + L` anytime to trigger Circle to Search immediately.
+- **🎯 Smart Shape Snapping**: Draw a circle or lasso around any logo, image, math equation, or text — Searchhy auto-detects and snaps the bounding box to fit the object.
+- **🌈 Chromatic Google Lens Trail**: Ultra-smooth 144Hz multi-color glowing particle trail that mirrors the native Google Circle to Search aesthetic.
+- **🚀 One-Click Google Lens Integration**: Directly submits the cropped image in-memory to Google Lens with zero file footprint.
+- **📋 Instant Clipboard Copy**: One-click copy for cropped areas without saving to disk.
+- **🖥️ Multi-Monitor & DPI-Aware**: Seamless operation across multi-monitor setups and dynamic scaling (100%, 125%, 150%, 200%).
+- **🛡️ Silent System Tray Integration**: Minimal resource usage (<15MB RAM), starts with Windows, and lives quietly in the taskbar tray.
 
-### Build
-Open PowerShell in the project directory:
+---
+
+## 🎮 How to Use
+
+| Action | Shortcut / Gesture |
+|---|---|
+| **Trigger Circle to Search** | Hold **Left + Right Mouse Buttons** together OR press **`Ctrl + Shift + L`** |
+| **Draw Circle / Selection** | Drag mouse around any object, image, or text |
+| **Search on Google Lens** | Click **Search with Google Lens** OR press **`Enter`** |
+| **Copy Image to Clipboard** | Click **📋 Copy** |
+| **Cancel / Dismiss** | Press **`ESC`** or Right-Click anywhere |
+| **Pause / Resume Hotkey** | Press **`Ctrl + Shift + P`** |
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+- **Language & Framework**: C# 12, .NET 8.0 Windows (WPF)
+- **Screen Capture Engine**: Multi-monitor native Win32 `BitBlt` & GDI+ interop
+- **Input System**: Asynchronous low-level `WH_MOUSE_LL` hook + Win32 `RegisterHotKey`
+- **Vision Pipeline**: Direct multipart in-memory payload pipeline to Google Lens endpoints
+
+```
+Searchhy/
+├── App.xaml / App.xaml.cs               # Application Lifecycle & Single-Instance Mutex
+├── SetupWizardWindow.xaml / .cs         # Modern Onboarding & Setup UI
+├── DashboardWindow.xaml / .cs           # Live Diagnostic & Hardware Chord Monitor
+├── OverlayWindow.xaml / .cs             # Fullscreen Chromatic Drawing & Snapping Overlay
+├── MouseChordDetector.cs                # Win32 Low-Level Mouse Hook Engine
+├── GlobalHotkeyManager.cs               # Global Hotkey Registrar (Ctrl+Shift+L / P)
+├── ScreenCapture.cs                     # High-DPI Multi-Monitor Screen Grabber
+├── LensSearchLauncher.cs                # Zero-Footprint Google Lens Launcher
+└── IconBuilder.cs                       # Dynamic Desktop & Tray Icon Manager
+```
+
+---
+
+## 🧑‍💻 Building from Source
+
 ```powershell
-dotnet build
-```
+# Clone repository
+git clone https://github.com/jeetmehta0008/Searchhy.git
+cd Searchhy
 
-### Run
-Launch Searchhy in the background:
-```powershell
-dotnet run
-```
-Or run the compiled executable directly:
-```powershell
-.\bin\Debug\net8.0-windows\Searchhy.exe
-```
+# Build solution in Release mode
+dotnet build -c Release
 
-When started, Searchhy will display a tray icon in your taskbar. It stays active in the background ready to trigger whenever you perform the mouse chord.
-
-### Automatic Launch on Windows Startup
-- Right-click the **Searchhy** tray icon and toggle **Start with Windows**.
-- Alternatively, Searchhy can be placed in your Windows Startup folder (`Win + R` -> `shell:startup`).
+# Run
+dotnet run -c Release
+```
 
 ---
 
-## ⚙️ How to Change the Google Lens Endpoint
+## 📄 License
 
-All endpoints and field names are isolated in [LensConfig.cs](file:///c:/Users/Jeet%20Mehta/Desktop/Pojects/Searchhy/LensConfig.cs):
+This project is licensed under the [MIT License](LICENSE).
 
-```csharp
-public static class LensConfig
-{
-    // The Google Lens upload endpoint URL (accepts multipart/form-data)
-    public const string UploadUrl = "https://lens.google.com/upload";
-
-    // The form field name for the image file
-    public const string FileFieldName = "encoded_image";
-
-    // Fallback URL if automated upload cannot proceed
-    public const string FallbackUrl = "https://lens.google.com";
-}
-```
-
-If Google ever modifies its upload endpoint URL or form field name in the future, simply update the strings in `LensConfig.cs` and recompile with `dotnet build`.
-
----
-
-## 📋 Manual Test Checklist
-
-| # | Test Case | Action | Expected Result | Pass? |
-|---|---|---|---|:---:|
-| 1 | **Normal Right-Click** | Right-click any file on Desktop or page in browser | Context menu opens immediately without lag | ✅ |
-| 2 | **Normal Text Selection** | Click and drag left mouse button over text | Text is highlighted/selected normally without triggering overlay | ✅ |
-| 3 | **Mouse Chord Trigger** | Press and hold `Left + Right` mouse buttons together for ~150ms | Screen freezes instantly with dimmed overlay across all monitors | ✅ |
-| 4 | **Multi-Monitor Dragging** | Drag the selection box from primary to secondary monitor | Selection marquee expands smoothly across monitor boundaries | ✅ |
-| 5 | **DPI Scaling Accuracy** | Test on 125% / 150% scaled display | Cropped region matches the selection box pixel-for-pixel | ✅ |
-| 6 | **ESC Cancellation** | Press `ESC` while overlay is visible | Overlay closes immediately; no search is triggered | ✅ |
-| 7 | **Small Selection Ignore** | Make a selection smaller than 10×10px and release | Overlay closes cleanly without triggering browser search | ✅ |
-| 8 | **Automated Lens Search** | Drag a selection over any image/text and release mouse buttons | Default browser opens directly with Google Lens search results | ✅ |
-| 9 | **Single Instance Lock** | Launch `Searchhy.exe` a second time | Second instance exits immediately without duplicate tray icons | ✅ |
-| 10 | **Exit Application** | Right-click tray icon -> Click **✕ Exit Searchhy** | Mouse hook unhooks and application closes cleanly | ✅ |
-
----
-
-## 📝 Logs
-
-Diagnostic logs are saved to:
-`%LOCALAPPDATA%\LensChord\log.txt`
+Developed with ❤️ by **[Jeet Mehta](https://github.com/jeetmehta0008)**.
