@@ -519,7 +519,7 @@ public partial class OverlayWindow : Window
         {
             ReleaseMouseCapture();
 
-            SearchLabelText.Text = "Launching Google Lens...";
+            SearchLabelText.Text = "Searching with Searchhy...";
             SearchIconText.Text = "🚀";
 
             if (_cropWidth >= LensConfig.MinSelectionDimensionPx && _cropHeight >= LensConfig.MinSelectionDimensionPx)
@@ -530,7 +530,7 @@ public partial class OverlayWindow : Window
                 int physicalH = (int)Math.Round(_cropHeight * _dpiScaleY);
 
                 var cropRect = new System.Drawing.Rectangle(physicalX, physicalY, physicalW, physicalH);
-                Logger.LogInfo($"Executing Google Lens search for crop: {physicalW}x{physicalH} at ({physicalX}, {physicalY})");
+                Logger.LogInfo($"Executing Searchhy search for crop: {physicalW}x{physicalH} at ({physicalX}, {physicalY})");
 
                 byte[] pngBytes = ScreenCapture.CropToPngBytes(_capturedScreenBitmap, cropRect);
 

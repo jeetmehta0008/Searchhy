@@ -73,7 +73,7 @@ public sealed class TrayHost : IDisposable
         _notifyIcon = new NotifyIcon
         {
             Icon = trayIcon,
-            Text = "Searchhy — Google Circle to Search",
+            Text = "Searchhy — Circle to Search",
             Visible = true,
             ContextMenuStrip = contextMenu
         };

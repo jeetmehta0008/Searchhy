@@ -10,7 +10,7 @@ public class AppSettings
     public bool StartWithWindows { get; set; } = true;
     public bool CreateDesktopShortcut { get; set; } = true;
     public bool ShowTrayNotificationOnStart { get; set; } = true;
-    public string PreferredSearchEngine { get; set; } = "Google Lens";
+    public string PreferredSearchEngine { get; set; } = "Searchhy Visual AI";
 
     private static readonly string SettingsFilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

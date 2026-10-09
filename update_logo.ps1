@@ -91,7 +91,7 @@ $shortcut = $wsh.CreateShortcut($lnkPath)
 $shortcut.TargetPath = Join-Path $binDir "Searchhy.exe"
 $shortcut.WorkingDirectory = $binDir
 $shortcut.IconLocation = "$destIco,0"
-$shortcut.Description = "Searchhy - Google Circle to Search for Windows"
+$shortcut.Description = "Searchhy - Circle to Search for Windows"
 $shortcut.Save()
 
 Write-Output "SUCCESS: Logo updated from latest upload."

@@ -230,12 +230,12 @@
                   Visibility="Collapsed"
                   Cursor="SizeNWSE"/>
 
-            <!-- Floating Action Bar with Google Search Button -->
+            <!-- Floating Action Bar with Searchhy Search Button -->
             <StackPanel x:Name="FloatingActionsBar"
                         Orientation="Horizontal"
                         Panel.ZIndex="1000"
                         Visibility="Collapsed">
-                <!-- Search with Google Lens Button -->
+                <!-- Search with Searchhy Button -->
                 <Button x:Name="BtnSearchLens"
                         Style="{StaticResource CreativeGoogleSearchBtn}"
                         Click="BtnConfirmSearch_Click"
@@ -243,7 +243,7 @@
                         Margin="0,0,10,0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock x:Name="SearchIconText" Text="✨" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="SearchLabelText" Text="Search with Google Lens" FontWeight="Bold" FontSize="13.5" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="SearchLabelText" Text="Search with Searchhy" FontWeight="Bold" FontSize="13.5" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
 
@@ -268,7 +268,7 @@
             </StackPanel>
         </Canvas>
 
-        <!-- Top Google Lens HUD Banner -->
+        <!-- Top Searchhy HUD Banner -->
         <Border HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Margin="0,22,0,0"
@@ -279,7 +279,7 @@
                 Padding="16,8"
                 IsHitTestVisible="False">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <!-- 4 Google Colored Dots -->
+                <!-- 4 Colored Dots -->
                 <StackPanel Orientation="Horizontal" Margin="0,0,12,0" VerticalAlignment="Center">
                     <Ellipse Width="7" Height="7" Fill="#4285F4" Margin="0,0,3,0"/>
                     <Ellipse Width="7" Height="7" Fill="#EA4335" Margin="0,0,3,0"/>
@@ -287,7 +287,7 @@
                     <Ellipse Width="7" Height="7" Fill="#34A853"/>
                 </StackPanel>
 
-                <TextBlock Text="Google Lens"
+                <TextBlock Text="Searchhy"
                            Foreground="#ffffff"
                            FontSize="13.5"
                            FontWeight="Bold"

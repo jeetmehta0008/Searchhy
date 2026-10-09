@@ -247,7 +247,7 @@
                                 <TextBlock Text="✨ v1.0 Ready" Foreground="#ffffff" FontSize="11.5" FontWeight="Bold"/>
                             </Border>
                         </StackPanel>
-                        <TextBlock Text="The authentic Google 'Circle to Search' experience — built natively for your Windows PC."
+                        <TextBlock Text="The authentic Circle to Search experience — built natively for your Windows PC."
                                    Foreground="#cbd5e1" FontSize="13.5" Margin="0,5,0,0"/>
                     </StackPanel>
                 </Grid>
@@ -369,7 +369,7 @@
                         <Border Background="#1a253d" CornerRadius="10" Padding="12,8" Margin="0,6,0,10" BorderBrush="#0284c7" BorderThickness="1.2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="🌐" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="Google Lens Visual AI (Active)" Foreground="#38bdf8" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="Searchhy Visual AI (Active)" Foreground="#38bdf8" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Border>
 

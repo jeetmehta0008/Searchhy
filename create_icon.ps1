@@ -35,7 +35,7 @@ $shortcut = $wsh.CreateShortcut("C:\Users\Jeet Mehta\Desktop\Searchhy.lnk")
 $shortcut.TargetPath = "c:\Users\Jeet Mehta\Desktop\Pojects\Searchhy\bin\Release\net8.0-windows\Searchhy.exe"
 $shortcut.WorkingDirectory = "c:\Users\Jeet Mehta\Desktop\Pojects\Searchhy\bin\Release\net8.0-windows"
 $shortcut.IconLocation = "c:\Users\Jeet Mehta\Desktop\Pojects\Searchhy\app.ico,0"
-$shortcut.Description = "Searchhy - Google Circle to Search for Windows"
+$shortcut.Description = "Searchhy - Circle to Search for Windows"
 $shortcut.Save()
 
 Write-Output "SUCCESS: Custom user logo applied to app.ico, logo.png, and Desktop Shortcut."

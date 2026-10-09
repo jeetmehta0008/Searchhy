@@ -152,7 +152,7 @@ public partial class SetupWizardWindow : Window
                 {
                     shortcut.IconLocation = $"{icoPath},0";
                 }
-                shortcut.Description = "Searchhy - Google Circle to Search for Windows";
+                shortcut.Description = "Searchhy - Circle to Search for Windows";
                 shortcut.Save();
             }
 

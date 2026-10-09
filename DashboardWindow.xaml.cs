@@ -214,7 +214,7 @@ public partial class DashboardWindow : Window
             shortcut.TargetPath = Path.Combine(projDir, @"bin\Release\net8.0-windows\Searchhy.exe");
             shortcut.WorkingDirectory = Path.Combine(projDir, @"bin\Release\net8.0-windows");
             shortcut.IconLocation = $"{targetIcoPath},0";
-            shortcut.Description = "Searchhy - Google Circle to Search for Windows";
+            shortcut.Description = "Searchhy - Circle to Search for Windows";
             shortcut.Save();
         }
 
@@ -237,7 +237,7 @@ public partial class DashboardWindow : Window
 
     private void BtnTestUpload_Click(object sender, RoutedEventArgs e)
     {
-        Logger.LogInfo("Manual Test: Testing Google search upload with a generated test pattern.");
+        Logger.LogInfo("Manual Test: Testing Searchhy visual search upload with a generated test pattern.");
 
         try
         {
