@@ -41,28 +41,41 @@ public sealed class GlobalHotkeyManager : IDisposable
 
     public void Initialize(IntPtr windowHandle)
     {
-        _windowHandle = windowHandle;
-        _hwndSource = HwndSource.FromHwnd(_windowHandle);
-        _hwndSource?.AddHook(_hwndHook);
-
-        // Hotkey 1: Ctrl + Shift + L -> Trigger Lens Selection directly
-        const uint VK_L = 0x4C;
-        bool registeredTrigger = RegisterHotKey(_windowHandle, _triggerHotKeyId, MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, VK_L);
-        if (registeredTrigger)
+        if (windowHandle == IntPtr.Zero)
         {
-            Logger.LogInfo("Global hotkey registered: Ctrl + Shift + L (Trigger Lens Search)");
-        }
-        else
-        {
-            Logger.LogWarn("Failed to register global hotkey Ctrl + Shift + L");
+            Logger.LogWarn("GlobalHotkeyManager: windowHandle is IntPtr.Zero, skipping hotkey registration.");
+            return;
         }
 
-        // Hotkey 2: Ctrl + Shift + P -> Pause / Resume Mouse Chord Detection
-        const uint VK_P = 0x50;
-        bool registeredToggle = RegisterHotKey(_windowHandle, _toggleHotKeyId, MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, VK_P);
-        if (registeredToggle)
+        try
         {
-            Logger.LogInfo("Global hotkey registered: Ctrl + Shift + P (Toggle Pause/Resume)");
+            _windowHandle = windowHandle;
+            _hwndSource = HwndSource.FromHwnd(_windowHandle);
+            _hwndSource?.AddHook(_hwndHook);
+
+            // Hotkey 1: Ctrl + Shift + L -> Trigger Lens Selection directly
+            const uint VK_L = 0x4C;
+            bool registeredTrigger = RegisterHotKey(_windowHandle, _triggerHotKeyId, MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, VK_L);
+            if (registeredTrigger)
+            {
+                Logger.LogInfo("Global hotkey registered: Ctrl + Shift + L (Trigger Lens Search)");
+            }
+            else
+            {
+                Logger.LogWarn("Failed to register global hotkey Ctrl + Shift + L");
+            }
+
+            // Hotkey 2: Ctrl + Shift + P -> Pause / Resume Mouse Chord Detection
+            const uint VK_P = 0x50;
+            bool registeredToggle = RegisterHotKey(_windowHandle, _toggleHotKeyId, MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, VK_P);
+            if (registeredToggle)
+            {
+                Logger.LogInfo("Global hotkey registered: Ctrl + Shift + P (Toggle Pause/Resume)");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("GlobalHotkeyManager initialization error", ex);
         }
     }
 

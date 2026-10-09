@@ -96,6 +96,9 @@ public partial class App : System.Windows.Application
             // Initialize Diagnostic Dashboard Window
             _dashboardWindow = new DashboardWindow(TriggerCircleToSearchManual, ShutdownApp);
 
+            // Ensure window handle exists immediately without having to show the window if setup wizard is running
+            IntPtr hostHandle = new System.Windows.Interop.WindowInteropHelper(_dashboardWindow).EnsureHandle();
+
             if (!settings.HasCompletedSetup)
             {
                 // First launch: show Setup & Onboarding Wizard
@@ -117,8 +120,6 @@ public partial class App : System.Windows.Application
                     _trayHost.ShowReadyNotification();
                 }
             }
-
-            IntPtr hostHandle = new System.Windows.Interop.WindowInteropHelper(_dashboardWindow).Handle;
 
             // Initialize Gesture Engine
             _chordDetector = new MouseChordDetector();

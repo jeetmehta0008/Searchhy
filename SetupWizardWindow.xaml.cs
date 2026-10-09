@@ -38,25 +38,41 @@ public partial class SetupWizardWindow : Window
         try
         {
             string projDir = AppDomain.CurrentDomain.BaseDirectory;
-            string logoPath = Path.Combine(projDir, "logo.png");
-            if (!File.Exists(logoPath))
+            string[] possiblePaths = new[]
             {
-                logoPath = @"c:\Users\Jeet Mehta\Desktop\Pojects\Searchhy\logo.png";
+                Path.Combine(projDir, "logo.png"),
+                @"c:\Users\Jeet Mehta\Desktop\Pojects\Searchhy\logo.png",
+                Path.Combine(Directory.GetCurrentDirectory(), "logo.png")
+            };
+
+            string? foundLogo = null;
+            foreach (var p in possiblePaths)
+            {
+                if (File.Exists(p))
+                {
+                    foundLogo = p;
+                    break;
+                }
             }
 
-            if (File.Exists(logoPath))
+            if (foundLogo != null)
             {
                 var bi = new BitmapImage();
                 bi.BeginInit();
-                bi.UriSource = new Uri(logoPath, UriKind.Absolute);
+                bi.UriSource = new Uri(foundLogo, UriKind.Absolute);
                 bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
                 bi.EndInit();
+                bi.Freeze();
 
                 HeaderLogoImage.Source = bi;
                 HeroLogoImage.Source = bi;
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            Logger.LogWarn($"Could not load branding image: {ex.Message}");
+        }
     }
 
     private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)

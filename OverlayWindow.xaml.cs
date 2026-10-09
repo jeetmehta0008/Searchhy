@@ -93,7 +93,7 @@ public partial class OverlayWindow : Window
         RootGrid.Width = dipWidth;
         RootGrid.Height = dipHeight;
 
-        IntPtr hwnd = new WindowInteropHelper(this).Handle;
+        IntPtr hwnd = new WindowInteropHelper(this).EnsureHandle();
         SetWindowPos(hwnd, (IntPtr)HWND_TOPMOST, _virtualBounds.Left, _virtualBounds.Top, _virtualBounds.Width, _virtualBounds.Height, SWP_SHOWWINDOW);
 
         Focus();
