@@ -1,0 +1,19 @@
+## Build & Output directories
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio / IDE
+.vs/
+.idea/
+.vscode/
+
+## Temp icon files
+app_v*.ico
+
+## Logs & Temp files
+*.log
+*.tmp
