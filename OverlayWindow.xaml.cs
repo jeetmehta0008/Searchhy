@@ -13,7 +13,7 @@ using System.Windows.Media;
 namespace Searchhy;
 
 /// <summary>
-/// Google "Circle to Search" overlay with freeform circle drawing,
+
 /// intelligent smart shape/icon snapping, interactive croppable handles, and instant Google Lens search.
 /// </summary>
 public partial class OverlayWindow : Window

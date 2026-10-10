@@ -22,8 +22,11 @@
 👉 **[Download Latest Standalone Release (Searchhy-v1.0-Windows-x64.zip)](https://github.com/jeetmehta0008/Searchhy/releases/latest)**
 
 1. Download and extract the `.zip` archive.
-2. Double-click `Searchhy.exe` to start.
+2. Double-click **`Searchhy.exe`** (or **`Start-Searchhy.bat`**) to start.
 3. The interactive **Setup & Onboarding Wizard** will appear to guide you through gestures and settings!
+
+> 🛡️ **First Time Launch (Windows SmartScreen)**:
+> If Windows shows *"Windows protected your PC"*, simply click **"More info"** ➔ **"Run anyway"**. (Standard for open-source apps without a commercial EV certificate). You can also run **`Start-Searchhy.bat`** to auto-unblock and launch.
 
 ---
 
